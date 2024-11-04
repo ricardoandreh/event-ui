@@ -7,20 +7,24 @@ const EventList = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await EventService.getEvents();
+      const { data } = await EventService.getEvents();
 
-      setEvents(response.data.results); // Assuming "data.results" holds the event data
+      setEvents(data.results);
     };
 
     fetchEvents();
   }, []);
 
   return (
-    <ul>
-      {events.map((event) => (
-        <EventCard key={event.id} event={event} /> // Added key prop for better performance
-      ))}
-    </ul>
+    <>
+      <h1>Event UI</h1>
+
+      <section className="events">
+        {events.map((event) => (
+          <EventCard key={event.id} event={event} />
+        ))}
+      </section>
+    </>
   );
 };
 

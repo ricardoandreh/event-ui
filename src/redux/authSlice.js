@@ -1,31 +1,82 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   token: null,
-  user: null,
-  status: "idle",
-  error: null,
+  refreshToken: null,
+  expiration: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    loginStart(state) {
-      state.status = "loading";
+    isTokenValid(state) {
+      if (Date.now() >= state.expiration) {
+        fetchRefreshToken();
+      }
     },
-    loginSuccess(state, action) {
-      state.status = "succeeded";
-      state.token = action.payload.token;
-      state.user = action.payload.user;
-    },
-    loginFailure(state, action) {
-      state.status = "failed";
-      state.error = action.payload.error;
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchToken.fulfilled, (state, { payload }) => {
+        state.token = payload.access;
+        state.refreshToken = payload.refresh;
+        state.expiration = Date.now() + 60 * 1000;
+      })
+      .addCase(fetchRefreshToken.fulfilled, (state, { payload }) => {
+        if (payload.refresh_token) {
+          state.refreshToken = payload.refresh;
+        }
+
+        state.token = payload.access;
+        state.expiration = Date.now() + 60 * 1000;
+      });
   },
 });
 
-export const { login } = authSlice.actions;
+export const fetchToken = createAsyncThunk(
+  "auth/fetchToken",
+  async (loginData) => {
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/token/`,
+        {
+          email: loginData?.email,
+          password: loginData?.password,
+        },
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      return data;
+    } catch (error) {
+      console.error("Erro ao obter token:", error);
+    }
+  }
+);
+
+export const fetchRefreshToken = createAsyncThunk(
+  "auth/fetchRefreshToken",
+  async () => {
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/token/refresh`,
+        {
+          refresh: state.refreshToken,
+        }
+      );
+
+      return data;
+    } catch (error) {
+      console.error("Erro ao obter refresh token:", error);
+    }
+  }
+);
+
+export const { isTokenValid } = authSlice.actions;
+
+export const selectAuth = (state) => state.auth;
 
 export default authSlice.reducer;
