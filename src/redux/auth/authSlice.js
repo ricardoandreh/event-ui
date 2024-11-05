@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const ONE_MINUTE = 60 * 1000;
+
 const initialState = {
   token: null,
   refreshToken: null,
@@ -11,11 +13,6 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    isTokenValid(state, { asyncDispatch }) {
-      if (Date.now() >= state.expiration) {
-        asyncDispatch(fetchRefreshToken());
-      }
-    },
     logout(state) {
       state.token = null;
       state.refreshToken = null;
@@ -25,14 +22,14 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchToken.fulfilled, (state, { payload }) => {
-        state.token = payload.access;
-        state.refreshToken = payload.refresh;
-        state.expiration = Date.now() + 60 * 1000;
+        state.token = payload?.access;
+        state.refreshToken = payload?.refresh;
+        state.expiration = Date.now() + ONE_MINUTE;
       })
       .addCase(fetchRefreshToken.fulfilled, (state, { payload }) => {
-        if (payload.access) {
-          state.token = payload.token;
-          state.expiration = Date.now() + 60 * 1000;
+        if (payload?.access) {
+          state.token = payload?.access;
+          state.expiration = Date.now() + ONE_MINUTE;
         }
       });
   },
@@ -57,7 +54,7 @@ export const fetchToken = createAsyncThunk(
     } catch (error) {
       console.error("Erro ao obter token:", error);
 
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error?.response?.data);
     }
   }
 );
@@ -69,9 +66,9 @@ export const fetchRefreshToken = createAsyncThunk(
 
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/token/refresh`,
+        `${import.meta.env.VITE_API_URL}/token/refresh/`,
         {
-          refresh: auth.refreshToken,
+          refresh: auth?.refreshToken,
         }
       );
 
@@ -79,12 +76,12 @@ export const fetchRefreshToken = createAsyncThunk(
     } catch (error) {
       console.error("Erro ao obter refresh token:", error);
 
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error?.response?.data);
     }
   }
 );
 
-export const { isTokenValid, logout } = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export const selectAuth = (state) => state.auth;
 
