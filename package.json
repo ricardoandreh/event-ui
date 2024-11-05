@@ -14,7 +14,8 @@
     "event-ui": "file:",
     "react": "19.0.0-rc-7c8e5e7a-20241101",
     "react-dom": "19.0.0-rc-7c8e5e7a-20241101",
-    "react-redux": "^9.1.2"
+    "react-redux": "^9.1.2",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

@@ -11,10 +11,15 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    isTokenValid(state) {
+    isTokenValid(state, { asyncDispatch }) {
       if (Date.now() >= state.expiration) {
-        fetchRefreshToken();
+        asyncDispatch(fetchRefreshToken());
       }
+    },
+    logout(state) {
+      state.token = null;
+      state.refreshToken = null;
+      state.expiration = null;
     },
   },
   extraReducers: (builder) => {
@@ -25,19 +30,17 @@ const authSlice = createSlice({
         state.expiration = Date.now() + 60 * 1000;
       })
       .addCase(fetchRefreshToken.fulfilled, (state, { payload }) => {
-        if (payload.refresh_token) {
-          state.refreshToken = payload.refresh;
+        if (payload.access) {
+          state.token = payload.token;
+          state.expiration = Date.now() + 60 * 1000;
         }
-
-        state.token = payload.access;
-        state.expiration = Date.now() + 60 * 1000;
       });
   },
 });
 
 export const fetchToken = createAsyncThunk(
   "auth/fetchToken",
-  async (loginData) => {
+  async (loginData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/token/`,
@@ -53,29 +56,35 @@ export const fetchToken = createAsyncThunk(
       return data;
     } catch (error) {
       console.error("Erro ao obter token:", error);
+
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
 export const fetchRefreshToken = createAsyncThunk(
   "auth/fetchRefreshToken",
-  async () => {
+  async (_, { getState, rejectWithValue }) => {
+    const { auth } = getState();
+
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/token/refresh`,
         {
-          refresh: state.refreshToken,
+          refresh: auth.refreshToken,
         }
       );
 
       return data;
     } catch (error) {
       console.error("Erro ao obter refresh token:", error);
+
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
-export const { isTokenValid } = authSlice.actions;
+export const { isTokenValid, logout } = authSlice.actions;
 
 export const selectAuth = (state) => state.auth;
 
