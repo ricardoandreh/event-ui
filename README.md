@@ -1,8 +1,31 @@
-# React + Vite
+# Event UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![GitHub](https://img.shields.io/github/license/ricardoandreh/event-ui)](https://github.com/ricardoandreh/event-ui/blob/master/LICENSE)
 
-Currently, two official plugins are available:
+Aplicação frontend migrada para React + Redux do [TechTalks](https://github.com/ricardoandreh/techtalks/).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
+
+### Prerequisites
+
+É necessário instalar o gerenciador de pacotes [PNPM](https://pnpm.io/installation).
+
+Instale as dependências:
+
+```sh
+pnpm install
+```
+
+Para rodar a aplicação em modo desenvolvimento:
+
+```sh
+pnpm run dev
+```
+
+### Environment Variables
+
+> Há somente uma variável nessa app. Toda variável de ambiente deverá ter o prefixo `VITE_` para ser reconhecida.
+
+|     Name     |           Default value            |                Description                 |
+| :----------: | :--------------------------------: | :----------------------------------------: |
+| VITE_API_URL | https://techtalks-api.onrender.com | URL da API a ser utilizada nessa aplicação |
