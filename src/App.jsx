@@ -1,14 +1,12 @@
 import React from "react";
-import { NavLink, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import EventDetails from "./components/EventDetails";
-import EventList from "./components/EventList";
-import Login from "./components/Login";
+import { NavLink, BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes";
 
-function App() {
+export default function App() {
   return (
     <Router>
       <div id="layout">
-      <header>
+        <header>
           <div className="wrapper">
             <nav>
               <NavLink
@@ -27,14 +25,8 @@ function App() {
             </nav>
           </div>
         </header>
-        <Routes>
-          <Route path="/" element={<EventList />} />
-          <Route path="/event/:id" element={<EventDetails />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
+        <AppRoutes />
       </div>
     </Router>
   );
 }
-
-export default App;

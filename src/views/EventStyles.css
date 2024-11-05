@@ -1,0 +1,43 @@
+.events {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button,
+input {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#alert {
+  color: red;
+  margin-bottom: 10px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  align-items: center;
+  justify-items: center;
+  margin: 0 auto;
+}
+
+.event-card {
+  padding: 20px;
+  width: 250px;
+  cursor: pointer;
+  border: 1px solid #39495c;
+  margin-bottom: 18px;
+}
+
+.event-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2);
+}
+
+.event-link {
+  color: #2c3e50;
+  text-decoration: none;
+}
