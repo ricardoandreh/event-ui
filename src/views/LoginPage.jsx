@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchToken, logout, selectAuth } from "../redux/auth/authSlice";
@@ -6,7 +7,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuth);
 
-  function login(formData) {
+  const login = useCallback((formData) => {
     const email = formData.get("email");
     const password = formData.get("password");
 
@@ -14,7 +15,7 @@ export default function Login() {
       loading: "Logando...",
       error: "Não foi possível logar",
     });
-  }
+  }, []);
 
   return auth.token ? (
     <section>
@@ -36,6 +37,7 @@ export default function Login() {
   ) : (
     <section>
       <Toaster />
+
       <form action={login} className="form">
         <div className="title">
           Event UI

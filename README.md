@@ -2,7 +2,7 @@
 
 [![GitHub](https://img.shields.io/github/license/ricardoandreh/event-ui)](https://github.com/ricardoandreh/event-ui/blob/master/LICENSE)
 
-Aplicação frontend migrada para React + Redux do [TechTalks](https://github.com/ricardoandreh/techtalks/).
+Aplicação frontend migrada para React + Redux + TanStack do [TechTalks](https://github.com/ricardoandreh/techtalks/).
 
 ## Getting Started
 
