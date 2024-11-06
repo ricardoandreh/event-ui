@@ -51,6 +51,16 @@ export default function Login() {
         />
         <button className="button-confirm">Log in &rarr;</button>
       </form>
+
+      {/* From Uiverse.io by G4b413l */}
+      {auth.isPending && (
+        <div className="newtons-cradle">
+          <div className="newtons-cradle__dot"></div>
+          <div className="newtons-cradle__dot"></div>
+          <div className="newtons-cradle__dot"></div>
+          <div className="newtons-cradle__dot"></div>
+        </div>
+      )}
     </section>
   );
 }

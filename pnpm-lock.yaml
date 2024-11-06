@@ -11,6 +11,9 @@ importers:
       '@reduxjs/toolkit':
         specifier: ^2.3.0
         version: 2.3.0(react-redux@9.1.2(@types/react@18.3.12)(react@19.0.0-rc-7c8e5e7a-20241101)(redux@5.0.1))(react@19.0.0-rc-7c8e5e7a-20241101)
+      '@tanstack/react-query':
+        specifier: ^5.59.20
+        version: 5.59.20(react@19.0.0-rc-7c8e5e7a-20241101)
       event-ui:
         specifier: 'file:'
         version: file:(@types/react@18.3.12)(redux@5.0.1)
@@ -463,6 +466,14 @@ packages:
     resolution: {integrity: sha512-HGZgRFFYrMrP3TJlq58nR1xy8zHKId25vhmm5S9jETEfDf6xybPxsavFTJaufe2zgOGYJBskGlj49CwtEuFhWQ==}
     cpu: [x64]
     os: [win32]
+
+  '@tanstack/query-core@5.59.20':
+    resolution: {integrity: sha512-e8vw0lf7KwfGe1if4uPFhvZRWULqHjFcz3K8AebtieXvnMOz5FSzlZe3mTLlPuUBcydCnBRqYs2YJ5ys68wwLg==}
+
+  '@tanstack/react-query@5.59.20':
+    resolution: {integrity: sha512-Zly0egsK0tFdfSbh5/mapSa+Zfc3Et0Zkar7Wo5sQkFzWyB3p3uZWOHR2wrlAEEV2L953eLuDBtbgFvMYiLvUw==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -1725,6 +1736,13 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.24.3':
     optional: true
 
+  '@tanstack/query-core@5.59.20': {}
+
+  '@tanstack/react-query@5.59.20(react@19.0.0-rc-7c8e5e7a-20241101)':
+    dependencies:
+      '@tanstack/query-core': 5.59.20
+      react: 19.0.0-rc-7c8e5e7a-20241101
+
   '@types/babel__core@7.20.5':
     dependencies:
       '@babel/parser': 7.26.2
@@ -2185,6 +2203,7 @@ snapshots:
       react: 19.0.0-rc-7c8e5e7a-20241101
       react-dom: 19.0.0-rc-7c8e5e7a-20241101(react@19.0.0-rc-7c8e5e7a-20241101)
       react-redux: 9.1.2(@types/react@18.3.12)(react@19.0.0-rc-7c8e5e7a-20241101)(redux@5.0.1)
+      redux-persist: 6.0.0(react@19.0.0-rc-7c8e5e7a-20241101)(redux@5.0.1)
     transitivePeerDependencies:
       - '@types/react'
       - redux

@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const ONE_MINUTE = 60 * 1000;
+const ONE_MINUTE = 1000 * 60;
 
 const initialState = {
   token: null,
-  refreshToken: null,
   expiration: null,
+  isPending: false,
+  refreshToken: null,
 };
 
 const authSlice = createSlice({
@@ -15,13 +16,21 @@ const authSlice = createSlice({
   reducers: {
     logout(state) {
       state.token = null;
-      state.refreshToken = null;
+      state.isPending = false;
       state.expiration = null;
+      state.refreshToken = null;
     },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchToken.pending, (state) => {
+        state.isPending = true;
+      })
+      .addCase(fetchToken.rejected, (state) => {
+        state.isPending = false;
+      })
       .addCase(fetchToken.fulfilled, (state, { payload }) => {
+        state.isPending = false;
         state.token = payload?.access;
         state.refreshToken = payload?.refresh;
         state.expiration = Date.now() + ONE_MINUTE;
@@ -44,9 +53,6 @@ export const fetchToken = createAsyncThunk(
         {
           email: loginData?.email,
           password: loginData?.password,
-        },
-        {
-          headers: { "Content-Type": "multipart/form-data" },
         }
       );
 

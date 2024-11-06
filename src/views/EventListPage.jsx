@@ -1,32 +1,29 @@
-import React, { useEffect, useState } from "react";
-import EventService from "../services/EventService";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import EventCard from "../components/Event/EventCard";
+import EventService from "../services/EventService";
 
 export default function EventList() {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
+  const { data: events, isPending } = useQuery({
+    queryKey: ["events"],
+    queryFn: async () => {
       const { data } = await EventService.getEvents();
 
-      setEvents(data?.results);
-      setLoading(false);
-    };
-
-    fetchEvents();
-  }, []);
+      return data?.results;
+    },
+    staleTime: 1000 * 60, // 1 minute
+  });
 
   return (
     <main>
       <h1>Event UI</h1>
 
       <section className="events">
-        {!loading ? (
-          events.map((event) => <EventCard key={event.id} event={event} />)
-        ) : (
-          <h1>Carregando...</h1>
-        )}
+        {isPending && <h1>Carregando...</h1>}
+
+        {events?.map((event) => (
+          <EventCard key={event?.id} event={event} />
+        ))}
       </section>
     </main>
   );
