@@ -1,3 +1,4 @@
+import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchToken, logout, selectAuth } from "../redux/auth/authSlice";
 
@@ -9,7 +10,10 @@ export default function Login() {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    dispatch(fetchToken({ email, password }));
+    toast.promise(dispatch(fetchToken({ email, password })).unwrap(), {
+      loading: "Logando...",
+      error: "Não foi possível logar",
+    });
   }
 
   return auth.token ? (
@@ -31,6 +35,7 @@ export default function Login() {
     </section>
   ) : (
     <section>
+      <Toaster />
       <form action={login} className="form">
         <div className="title">
           Event UI
