@@ -1,6 +1,6 @@
-import axios from "axios";
-import { fetchRefreshToken } from "../redux/auth/authSlice";
-import { store } from "../redux/store";
+import axios, { AxiosRequestConfig } from "axios";
+import { fetchRefreshToken } from "../features/auth/authThunk";
+import { RootState, store } from "../features/store";
 
 const apiClient = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api`,
@@ -10,18 +10,20 @@ const apiClient = axios.create({
   },
 });
 
-let refreshTokenPromise = null;
+let refreshTokenPromise: Promise<void> | null = null;
 
 apiClient.interceptors.request.use(
-  async (config) => {
-    const { auth } = store.getState();
+  async (config: AxiosRequestConfig) => {
+    const { auth } = store.getState() as RootState;
 
     if (auth?.token) {
-      const isTokenValid = Date.now() < auth.expiration;
+      const isTokenValid = Date.now() < (auth?.expiration || 0);
 
       if (!isTokenValid) {
         if (!refreshTokenPromise) {
-          refreshTokenPromise = store.dispatch(fetchRefreshToken());
+          refreshTokenPromise = store.dispatch(
+            fetchRefreshToken() as Promise<void>
+          );
         }
 
         await refreshTokenPromise;
@@ -43,7 +45,7 @@ export default {
   getEvents() {
     return apiClient.get("/events");
   },
-  getEvent(id) {
+  getEvent(id: number) {
     return apiClient.get(`/events/${id}`);
   },
 };

@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink, BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
 

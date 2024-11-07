@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import EventDetailsPage from "../views/Event/EventDetailsPage";
 import EventListPage from "../views/Event/EventListPage";
