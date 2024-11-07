@@ -6,7 +6,7 @@ export default function EventDetails() {
   const { id } = useParams();
 
   const { data: event, isPending } = useQuery({
-    queryKey: ["event"],
+    queryKey: ["event", id],
     queryFn: async () => {
       const { data } = await EventService.getEvent(id);
 
@@ -29,6 +29,7 @@ export default function EventDetails() {
         formattedTime,
       };
     },
+    refetchOnWindowFocus: false,
   });
 
   return isPending ? (
