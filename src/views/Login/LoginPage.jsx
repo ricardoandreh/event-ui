@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchToken, logout, selectAuth } from "../redux/auth/authSlice";
+import { fetchToken, logout, selectAuth } from "../../redux/auth/authSlice";
 
 export default function Login() {
   const dispatch = useDispatch();

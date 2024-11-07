@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import EventCard from "../components/Event/EventCard";
-import EventService from "../services/EventService";
+import EventService from "../../services/EventService";
+import EventCard from "./components/EventCard";
 
 export default function EventList() {
   const { data: events, isPending } = useQuery({

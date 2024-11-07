@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import EventService from "../services/EventService";
+import EventService from "../../services/EventService";
 
 export default function EventDetails() {
   const { id } = useParams();

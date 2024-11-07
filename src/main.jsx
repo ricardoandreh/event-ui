@@ -6,8 +6,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import App from "./App.jsx";
 import "./index.css";
 import { persistor, store } from "./redux/store.js";
-import "./views/EventStyles.css";
-import "./views/LoginStyles.css";
+import "./views/Event/EventStyles.css";
+import "./views/Login/LoginStyles.css";
 
 const queryClient = new QueryClient();
 
