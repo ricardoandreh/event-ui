@@ -4,8 +4,10 @@ import { fetchRefreshToken } from "../features/auth/authThunk";
 import { RootState, store } from "../features/store";
 import { AuthResponse } from "../types/auth-response";
 
+const BASE_URL = `${import.meta.env.VITE_API_URL}/api`;
+
 const apiClient = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api`,
+  baseURL: BASE_URL,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

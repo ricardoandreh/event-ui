@@ -13,7 +13,7 @@ export default function EventList() {
         {isPending && <h1>Carregando...</h1>}
 
         {events?.map((event: Event) => (
-          <EventCard key={event?.id} event={event} />
+          <EventCard key={event.id} event={event} />
         ))}
       </section>
     </main>

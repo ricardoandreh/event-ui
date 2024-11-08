@@ -1,4 +1,8 @@
-export const formatEventDate = (dateString: string) => {
+export const formatEventDate = (dateString?: string) => {
+  if (!dateString) {
+    return { formattedDate: "", formattedTime: "" };
+  }
+
   const date = new Date(dateString);
 
   const formattedDate = date.toLocaleDateString("pt-BR", {
