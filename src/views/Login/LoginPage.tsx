@@ -1,55 +1,19 @@
-import { useCallback } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { logout, selectAuth } from "../../features/auth/authSlice";
-import { fetchToken } from "../../features/auth/authThunk";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { FormEvent, useCallback } from "react";
+import { Toaster } from "react-hot-toast";
+import useAuth from "../../hooks/auth";
 
 export default function Login() {
-  const dispatch = useAppDispatch();
-  const auth = useAppSelector(selectAuth);
+  const { login, logout, hasAccess, isPending } = useAuth();
 
-  const login = useCallback((formData: FormData) => {
-    const email = formData.get("email") as string | null;
-    const password = formData.get("password") as string | null;
+  const handleLoginSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    if (!email || !password) {
-      toast.error("Email e senha são obrigatórios!", { position: "top-right" });
+    const formData = new FormData(e.target as HTMLFormElement);
 
-      return;
-    }
-
-    toast.promise(
-      dispatch(fetchToken({ email, password })).unwrap(),
-      {
-        loading: "Logando...",
-        error: (err) => err.message.detail,
-        success: "Login bem-sucedido!",
-      },
-      { position: "top-right" }
-    );
+    login(formData);
   }, []);
 
-  const handleLoginSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-
-      const formData = new FormData(e.target as HTMLFormElement);
-
-      login(formData);
-    },
-    []
-  );
-
-  const handleLogoutSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-
-      dispatch(logout());
-    },
-    []
-  );
-
-  return !auth.token ? (
+  return !hasAccess ? (
     <section>
       <Toaster />
 
@@ -75,7 +39,7 @@ export default function Login() {
       </form>
 
       {/* From Uiverse.io by G4b413l */}
-      {auth.isPending && (
+      {isPending && (
         <div className="newtons-cradle">
           <div className="newtons-cradle__dot"></div>
           <div className="newtons-cradle__dot"></div>
@@ -86,7 +50,7 @@ export default function Login() {
     </section>
   ) : (
     <section>
-      <form onSubmit={handleLogoutSubmit}>
+      <form onSubmit={logout}>
         <h2>Deseja sair?</h2>
 
         {/* From Uiverse.io by Lealdos */}

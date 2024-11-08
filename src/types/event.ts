@@ -10,3 +10,7 @@ export interface Event {
   created_at: string;
   updated_at: string;
 }
+
+export interface EventsResponse {
+  results: Event[];
+}

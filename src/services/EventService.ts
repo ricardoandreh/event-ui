@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Event, EventsResponse } from "types/event";
 import { fetchRefreshToken } from "../features/auth/authThunk";
 import { RootState, store } from "../features/store";
 import { AuthResponse } from "../types/auth-response";
@@ -44,9 +45,9 @@ apiClient.interceptors.request.use(
 
 export default {
   getEvents() {
-    return apiClient.get("/events");
+    return apiClient.get<EventsResponse>("/events");
   },
   getEvent(id: string) {
-    return apiClient.get(`/events/${id}`);
+    return apiClient.get<Event>(`/events/${id}`);
   },
 };

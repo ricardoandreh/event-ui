@@ -1,26 +1,9 @@
-import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Event } from "../../../types/event";
+import { formatEventDate } from "../../../utils/format-date";
 
 export default function EventCard({ event }: { event: Event }) {
-  const dateToFormat = useMemo(() => {
-    return new Date(event?.date);
-  }, [event?.date]);
-
-  const formattedDate = useMemo(() => {
-    return dateToFormat.toLocaleDateString("pt-BR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-  }, [dateToFormat]);
-
-  const formattedTime = useMemo(() => {
-    return dateToFormat.toLocaleTimeString("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }, [dateToFormat]);
+  const { formattedDate, formattedTime } = formatEventDate(event.date);
 
   return (
     <Link to={`/event/${event?.id}`} className="event-link">
