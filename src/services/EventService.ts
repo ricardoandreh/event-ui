@@ -1,6 +1,7 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 import { fetchRefreshToken } from "../features/auth/authThunk";
 import { RootState, store } from "../features/store";
+import { AuthResponse } from "../types/auth-response";
 
 const apiClient = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api`,
@@ -10,10 +11,10 @@ const apiClient = axios.create({
   },
 });
 
-let refreshTokenPromise: Promise<void> | null = null;
+let refreshTokenPromise: Promise<AuthResponse> | null = null;
 
 apiClient.interceptors.request.use(
-  async (config: AxiosRequestConfig) => {
+  async (config) => {
     const { auth } = store.getState() as RootState;
 
     if (auth?.token) {
@@ -21,9 +22,9 @@ apiClient.interceptors.request.use(
 
       if (!isTokenValid) {
         if (!refreshTokenPromise) {
-          refreshTokenPromise = store.dispatch(
-            fetchRefreshToken() as Promise<void>
-          );
+          refreshTokenPromise = store
+            .dispatch(fetchRefreshToken())
+            .unwrap() as Promise<AuthResponse>;
         }
 
         await refreshTokenPromise;
@@ -45,7 +46,7 @@ export default {
   getEvents() {
     return apiClient.get("/events");
   },
-  getEvent(id: number) {
+  getEvent(id: string) {
     return apiClient.get(`/events/${id}`);
   },
 };

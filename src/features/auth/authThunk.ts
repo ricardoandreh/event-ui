@@ -1,15 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
+import { AuthResponse } from "../../types/auth-response";
+import { ErrorResponse } from "../../types/error";
 import { loginForm } from "../../types/form";
 import { RootState } from "../store";
 
 export const fetchToken = createAsyncThunk<
-  RefreshTokenResponse,
+  AuthResponse,
   loginForm,
-  { rejectValue: ErrorResponse } // Aqui, tipamos o erro como um objeto com `message` e opcionalmente `code`
+  { rejectValue: ErrorResponse }
 >("auth/fetchToken", async (loginData: loginForm, { rejectWithValue }) => {
   try {
-    const { data } = await axios.post<RefreshTokenResponse>(
+    const { data } = await axios.post<AuthResponse>(
       `${import.meta.env.VITE_API_URL}/token/`,
       {
         email: loginData?.email,
@@ -21,24 +23,24 @@ export const fetchToken = createAsyncThunk<
   } catch (error) {
     if (error instanceof AxiosError) {
       return rejectWithValue({
-        message: error.response?.data.message || "Erro desconhecido",
+        message: error.response?.data || "Erro ao resgatar accessToken",
         code: error.response?.status,
       });
     }
 
-    return rejectWithValue({ message: "Erro desconhecido" });
+    return rejectWithValue({ message: "Erro ao resgatar accessToken" });
   }
 });
 
 export const fetchRefreshToken = createAsyncThunk<
-  RefreshTokenResponse,
+  AuthResponse,
   void,
-  { rejectValue: ErrorResponse } // Aqui, tipamos o erro como um objeto com `message` e opcionalmente `code`
+  { rejectValue: ErrorResponse }
 >("auth/fetchRefreshToken", async (_, { getState, rejectWithValue }) => {
   const { auth } = getState() as RootState;
 
   try {
-    const { data } = await axios.post<RefreshTokenResponse>(
+    const { data } = await axios.post<AuthResponse>(
       `${import.meta.env.VITE_API_URL}/token/refresh/`,
       {
         refresh: auth?.refreshToken,
@@ -49,11 +51,11 @@ export const fetchRefreshToken = createAsyncThunk<
   } catch (error) {
     if (error instanceof AxiosError) {
       return rejectWithValue({
-        message: error.response?.data.message || "Erro desconhecido",
+        message: error.response?.data || "Erro ao resgatar refreshToken",
         code: error.response?.status,
       });
     }
 
-    return rejectWithValue({ message: "Erro desconhecido" });
+    return rejectWithValue({ message: "Erro ao resgatar refreshToken" });
   }
 });

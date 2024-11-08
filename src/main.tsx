@@ -11,7 +11,7 @@ import "./views/Login/LoginStyles.css";
 
 const queryClient = new QueryClient();
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

@@ -1,7 +1,8 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { Event } from "types/event";
 
-export default function EventCard({ event }) {
+export default function EventCard({ event }: { event: Event }) {
   const dateToFormat = useMemo(() => {
     return new Date(event?.date);
   }, [event?.date]);

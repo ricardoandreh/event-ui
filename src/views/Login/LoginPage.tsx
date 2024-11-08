@@ -13,22 +13,27 @@ export default function Login() {
     const password = formData.get("password") as string | null;
 
     if (!email || !password) {
-      toast.error("Email e senha são obrigatórios!");
+      toast.error("Email e senha são obrigatórios!", { position: "top-right" });
+
       return;
     }
 
-    toast.promise(dispatch(fetchToken({ email, password })).unwrap(), {
-      loading: "Logando...",
-      error: (err: any) => `Erro: ${err?.message || "Não foi possível logar"}`,
-      success: "Login bem-sucedido!",
-    });
+    toast.promise(
+      dispatch(fetchToken({ email, password })).unwrap(),
+      {
+        loading: "Logando...",
+        error: (err) => err.message.detail,
+        success: "Login bem-sucedido!",
+      },
+      { position: "top-right" }
+    );
   }, []);
 
   const handleLoginSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      const formData = new FormData(e.target as HTMLFormElement); // type assertion aqui
+      const formData = new FormData(e.target as HTMLFormElement);
 
       login(formData);
     },

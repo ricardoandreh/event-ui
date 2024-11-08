@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import EventService from "../../services/EventService";
 
 export default function EventDetails() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
 
   const { data: event, isPending } = useQuery({
     queryKey: ["event", { id }],
     queryFn: async () => {
-      const { data } = await EventService.getEvent(id);
+      const { data } = await EventService.getEvent(id as string);
 
       const dateToFormat = new Date(data?.date);
 
@@ -30,6 +30,7 @@ export default function EventDetails() {
       };
     },
     staleTime: 1000 * 60, // 1 minute
+    enabled: !!id,
   });
 
   return isPending ? (

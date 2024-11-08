@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthState } from "../../types/auth";
+import { AuthState } from "../../types/auth-state";
 import { RootState } from "../store";
 import { fetchRefreshToken, fetchToken } from "./authThunk";
 
@@ -33,13 +33,13 @@ const authSlice = createSlice({
       })
       .addCase(fetchToken.fulfilled, (state, { payload }) => {
         state.isPending = false;
-        state.token = payload?.access;
-        state.refreshToken = payload?.refresh;
+        state.token = payload?.access ?? null;
+        state.refreshToken = payload?.refresh ?? null;
         state.expiration = Date.now() + ONE_MINUTE;
       })
       .addCase(fetchRefreshToken.fulfilled, (state, { payload }) => {
         if (payload?.access) {
-          state.token = payload?.access;
+          state.token = payload?.access ?? null;
           state.expiration = Date.now() + ONE_MINUTE;
         }
       });

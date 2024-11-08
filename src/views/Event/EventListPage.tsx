@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import { Event } from "types/event";
 import EventService from "../../services/EventService";
 import EventCard from "./components/EventCard";
 
@@ -21,7 +21,7 @@ export default function EventList() {
       <section className="events">
         {isPending && <h1>Carregando...</h1>}
 
-        {events?.map((event) => (
+        {events?.map((event: Event) => (
           <EventCard key={event?.id} event={event} />
         ))}
       </section>

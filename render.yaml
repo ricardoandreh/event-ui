@@ -3,7 +3,7 @@ services:
     plan: free
     name: event-ui
     runtime: node
-    buildCommand: "pnpm install && pnpm run build"
+    buildCommand: "pnpm install && pnpm run type-check && pnpm run build"
     startCommand: "pnpm run preview --host 0.0.0.0"
     envVars:
       - key: VITE_API_URL

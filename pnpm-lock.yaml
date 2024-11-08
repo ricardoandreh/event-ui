@@ -2260,13 +2260,10 @@ snapshots:
 
   event-ui@file:(@types/react@18.3.12)(csstype@3.1.3)(redux@5.0.1):
     dependencies:
-      '@reduxjs/toolkit': 2.3.0(react-redux@9.1.2(@types/react@18.3.12)(react@19.0.0-rc-7c8e5e7a-20241101)(redux@5.0.1))(react@19.0.0-rc-7c8e5e7a-20241101)
-      '@tanstack/react-query': 5.59.20(react@19.0.0-rc-7c8e5e7a-20241101)
       react: 19.0.0-rc-7c8e5e7a-20241101
       react-dom: 19.0.0-rc-7c8e5e7a-20241101(react@19.0.0-rc-7c8e5e7a-20241101)
       react-hot-toast: 2.4.1(csstype@3.1.3)(react-dom@19.0.0-rc-7c8e5e7a-20241101(react@19.0.0-rc-7c8e5e7a-20241101))(react@19.0.0-rc-7c8e5e7a-20241101)
       react-redux: 9.1.2(@types/react@18.3.12)(react@19.0.0-rc-7c8e5e7a-20241101)(redux@5.0.1)
-      redux-persist: 6.0.0(react@19.0.0-rc-7c8e5e7a-20241101)(redux@5.0.1)
     transitivePeerDependencies:
       - '@types/react'
       - csstype
