@@ -3,8 +3,11 @@ services:
     plan: free
     name: event-ui
     runtime: node
-    buildCommand: "pnpm install && pnpm run type-check && pnpm run build"
-    startCommand: "pnpm run preview --host 0.0.0.0"
+    buildCommand: pnpm install && pnpm run type-check && pnpm run build
+    startCommand: pnpm run preview --host 0.0.0.0 --port 10000
     envVars:
       - key: VITE_API_URL
-        value: "https://techtalks-api.onrender.com"
+        fromService:
+          type: web
+          name: techtalks-api
+          envVarKey: RENDER_EXTERNAL_URL
