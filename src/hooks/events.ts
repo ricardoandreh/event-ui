@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Event } from "types/event";
 import EventService from "../services/EventService";
+import { Event } from "../types/event";
 
 export default function useEvents() {
   const { data: events, isPending } = useQuery<Event[]>({
